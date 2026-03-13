@@ -1,0 +1,27 @@
+{
+  "name": "pagesoobin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pagelalame3662/pagesoobin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Pagelalame3662/pagesoobin/issues"
+  },
+  "homepage": "https://github.com/Pagelalame3662/pagesoobin#readme",
+  "devDependencies": {
+    "vitest": "^4.1.0"
+  }
+}
