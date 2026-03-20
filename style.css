@@ -1,0 +1,121 @@
+/* style.css — 圈圈叉叉遊戲樣式 */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 1.75rem;
+  color: #1a202c;
+}
+
+#status {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d3748;
+  min-height: 2rem;
+  text-align: center;
+}
+
+/* ── 棋盤 ───────────────────────────────── */
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: min(90vw, 360px);
+}
+
+/* ── 格子 ───────────────────────────────── */
+.cell {
+  aspect-ratio: 1;
+  background: #ffffff;
+  border: 2px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: clamp(1.5rem, 8vw, 3rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  color: #2d3748;
+}
+
+.cell:hover:not(.cell--taken):not(.board--gameover .cell) {
+  background: #ebf8ff;
+  transform: scale(1.03);
+}
+
+/* 已落子格子 */
+.cell--taken {
+  cursor: not-allowed;
+}
+
+/* 獲勝格子高亮 */
+.cell--winner {
+  background: #fefcbf;
+  border-color: #f6e05e;
+  color: #744210;
+}
+
+/* 遊戲結束時停用所有格子點擊 */
+.board--gameover .cell {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* 重新開始按鈕 */
+#restart {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #4299e1;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+#restart:hover {
+  background: #3182ce;
+}
+
+/* ── 響應式佈局（RWD） ──────────────────── */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  #status {
+    font-size: 1.1rem;
+  }
+
+  #board {
+    width: min(94vw, 340px);
+    gap: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  #board {
+    width: 360px;
+  }
+}

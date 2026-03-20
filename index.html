@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>圈圈叉叉遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main>
+    <h1>圈圈叉叉遊戲</h1>
+    <div id="status">玩家一回合（O）</div>
+    <div id="board">
+      <button class="cell" data-index="0" aria-label="格子 1"></button>
+      <button class="cell" data-index="1" aria-label="格子 2"></button>
+      <button class="cell" data-index="2" aria-label="格子 3"></button>
+      <button class="cell" data-index="3" aria-label="格子 4"></button>
+      <button class="cell" data-index="4" aria-label="格子 5"></button>
+      <button class="cell" data-index="5" aria-label="格子 6"></button>
+      <button class="cell" data-index="6" aria-label="格子 7"></button>
+      <button class="cell" data-index="7" aria-label="格子 8"></button>
+      <button class="cell" data-index="8" aria-label="格子 9"></button>
+    </div>
+    <button id="restart">重新開始</button>
+  </main>
+
+  <script type="module">
+    import { initGame, makeMove, getState } from './game.js';
+
+    const statusEl = document.getElementById('status');
+    const boardEl = document.getElementById('board');
+    const restartBtn = document.getElementById('restart');
+    const cells = document.querySelectorAll('.cell');
+
+    function updateStatus(state) {
+      if (state.winner) {
+        statusEl.textContent = state.winner === 'O' ? '玩家一獲勝！' : '玩家二獲勝！';
+      } else if (state.isDraw) {
+        statusEl.textContent = '平局！';
+      } else {
+        statusEl.textContent = state.currentPlayer === 'O'
+          ? '玩家一回合（O）'
+          : '玩家二回合（X）';
+      }
+    }
+
+    function render(state) {
+      cells.forEach((cell, index) => {
+        const symbol = state.board[index];
+        cell.textContent = symbol ?? '';
+        cell.classList.toggle('cell--taken', symbol !== null);
+        cell.classList.toggle(
+          'cell--winner',
+          state.winLine !== null && state.winLine.includes(index)
+        );
+        cell.setAttribute('aria-label', `格子 ${index + 1}${symbol ? `：${symbol}` : ''}`);
+      });
+      boardEl.classList.toggle('board--gameover', state.gameOver);
+      updateStatus(state);
+    }
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        const index = parseInt(cell.dataset.index, 10);
+        const state = makeMove(index);
+        render(state);
+      });
+    });
+
+    restartBtn.addEventListener('click', () => {
+      initGame();
+      render(getState());
+    });
+
+    // 初始渲染
+    initGame();
+    render(getState());
+  </script>
+</body>
+</html>
